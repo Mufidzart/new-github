@@ -10,11 +10,15 @@ import android.widget.ProgressBar
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.ViewModelProvider
+import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.mufidz.githubusersubmission2.R
 import com.mufidz.githubusersubmission2.databinding.ActivityDetailUserBinding
 import com.mufidz.githubusersubmission2.github.db.DatabaseContract
 import com.mufidz.githubusersubmission2.github.db.FavoriteHelper
+import com.mufidz.githubusersubmission2.github.model.Favorite
+import com.mufidz.githubusersubmission2.github.ui.favorite.FavoriteAdapter
 import java.text.SimpleDateFormat
 import java.util.*
 
@@ -120,6 +124,7 @@ class DetailUser : AppCompatActivity(), View.OnClickListener {
                 if (result > 0) {
                     val btnTitle = "Add Favorite"
                     binding.btnAddFavorite.text = btnTitle
+                    Toast.makeText(this, "Removed from favorite", Toast.LENGTH_SHORT).show()
                 } else {
                     Toast.makeText(this, "Failed remove favorite", Toast.LENGTH_SHORT).show()
                 }

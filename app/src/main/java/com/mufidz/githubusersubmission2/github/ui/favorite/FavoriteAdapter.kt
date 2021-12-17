@@ -5,10 +5,14 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Button
+import android.widget.Toast
+import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.mufidz.githubusersubmission2.R
 import com.mufidz.githubusersubmission2.databinding.ItemUserBinding
+import com.mufidz.githubusersubmission2.github.db.FavoriteHelper
 import com.mufidz.githubusersubmission2.github.model.Favorite
 import com.mufidz.githubusersubmission2.github.ui.detail.DetailUser
 
@@ -39,6 +43,7 @@ class FavoriteAdapter : RecyclerView.Adapter<FavoriteAdapter.FavoriteViewHolder>
                 intent.putExtra(DetailUser.EXTRA_USERNAME, favorite.username)
                 it.context.startActivity(intent)
             }
+            binding.btnDelete.visibility = View.VISIBLE
             binding.apply {
                 tvName.text = favorite.username
                 Glide.with(itemView)

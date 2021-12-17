@@ -1,5 +1,6 @@
 package com.mufidz.githubusersubmission2.github.menu
 
+import android.content.Intent
 import android.database.SQLException
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
@@ -51,5 +52,12 @@ class FavoriteActivity : AppCompatActivity() {
             recyclerView.layoutManager = LinearLayoutManager(this)
         }
         favoriteHelper.close()
+    }
+
+    override fun onRestart() {
+        super.onRestart()
+        val intent = Intent(this, FavoriteActivity::class.java)
+        startActivity(intent)
+        finish()
     }
 }
