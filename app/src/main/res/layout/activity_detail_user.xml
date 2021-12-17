@@ -94,7 +94,7 @@
 
     <Button
       android:id="@+id/btn_add_favorite"
-      android:layout_width="150dp"
+      android:layout_width="200dp"
       android:layout_height="40dp"
       android:background="@drawable/rounded_corners"
       tools:text="Add Favorite"

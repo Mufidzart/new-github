@@ -4,9 +4,13 @@ import android.database.SQLException
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
+import android.view.View
+import android.widget.ImageView
+import android.widget.ProgressBar
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.mufidz.githubusersubmission2.R
+import com.mufidz.githubusersubmission2.databinding.ActivityFavoriteUserBinding
 import com.mufidz.githubusersubmission2.github.db.DatabaseContract
 import com.mufidz.githubusersubmission2.github.db.FavoriteHelper
 import com.mufidz.githubusersubmission2.github.model.Favorite
@@ -24,6 +28,8 @@ class FavoriteActivity : AppCompatActivity() {
         val cursor = favoriteHelper.queryAll()
         if (cursor.count == 0) {
             Log.d("DEBUG", "NO DATA FOUND")
+            val image = findViewById<ImageView>(R.id.notfound)
+            image.visibility = ImageView.VISIBLE
         } else {
             val usernameColumn = cursor.getColumnIndex(DatabaseContract.FavoriteColumns.USERNAME)
             val avatarColumn = cursor.getColumnIndex(DatabaseContract.FavoriteColumns.AVATAR)

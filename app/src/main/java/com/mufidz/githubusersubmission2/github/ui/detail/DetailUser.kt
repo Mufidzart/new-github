@@ -7,7 +7,6 @@ import android.os.Looper
 import android.util.Log
 import android.view.View
 import android.widget.ProgressBar
-import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.ViewModelProvider
@@ -16,8 +15,6 @@ import com.mufidz.githubusersubmission2.R
 import com.mufidz.githubusersubmission2.databinding.ActivityDetailUserBinding
 import com.mufidz.githubusersubmission2.github.db.DatabaseContract
 import com.mufidz.githubusersubmission2.github.db.FavoriteHelper
-import com.mufidz.githubusersubmission2.github.model.DetailUserResponse
-import com.mufidz.githubusersubmission2.github.model.Favorite
 import java.text.SimpleDateFormat
 import java.util.*
 
@@ -70,12 +67,9 @@ class DetailUser : AppCompatActivity(), View.OnClickListener {
             tabs.setupWithViewPager(viewPager)
         }
 
-
         val favoriteHelper = FavoriteHelper.getInstance(applicationContext)
         favoriteHelper.open()
-        val user = findViewById<TextView>(R.id.tv_username).text.toString()
-        val cursor = favoriteHelper.queryByUsername(user)
-        Log.d("Data", user)
+        val cursor = favoriteHelper.queryByUsername(username)
         if (cursor.count == 0) {
             Log.d("DEBUG", "NO DATA FOUND")
             val btnTitle = "Add Favorite"
@@ -118,7 +112,6 @@ class DetailUser : AppCompatActivity(), View.OnClickListener {
                     val btnTitle = "Remove Favorite"
                     binding.btnAddFavorite.text = btnTitle
                     Toast.makeText(this, "Success add to favorite", Toast.LENGTH_SHORT).show()
-                    finish()
                 } else {
                     Toast.makeText(this, "Failed add to favorite", Toast.LENGTH_SHORT).show()
                 }
@@ -127,7 +120,6 @@ class DetailUser : AppCompatActivity(), View.OnClickListener {
                 if (result > 0) {
                     val btnTitle = "Add Favorite"
                     binding.btnAddFavorite.text = btnTitle
-                    finish()
                 } else {
                     Toast.makeText(this, "Failed remove favorite", Toast.LENGTH_SHORT).show()
                 }
