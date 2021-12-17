@@ -12,6 +12,7 @@ internal class DatabaseHelper(context: Context):SQLiteOpenHelper(context, DATABA
         private const val SQL_CREATE_TABLE_FAVORITE = "CREATE TABLE $TABLE_NAME" +
                 " (${DatabaseContract.FavoriteColumns._ID} INTEGER PRIMARY KEY AUTOINCREMENT," +
                 " ${DatabaseContract.FavoriteColumns.USERNAME} TEXT NOT NULL," +
+                " ${DatabaseContract.FavoriteColumns.AVATAR} TEXT NOT NULL," +
                 " ${DatabaseContract.FavoriteColumns.DATE} TEXT NOT NULL)"
     }
 

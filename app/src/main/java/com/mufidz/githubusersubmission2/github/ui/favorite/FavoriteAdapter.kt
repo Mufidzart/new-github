@@ -1,5 +1,6 @@
 package com.mufidz.githubusersubmission2.github.ui.favorite
 
+import android.content.Intent
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
@@ -9,9 +10,9 @@ import com.bumptech.glide.Glide
 import com.mufidz.githubusersubmission2.R
 import com.mufidz.githubusersubmission2.databinding.ItemUserBinding
 import com.mufidz.githubusersubmission2.github.model.Favorite
+import com.mufidz.githubusersubmission2.github.ui.detail.DetailUser
 
-class FavoriteAdapter (private val onItemClickCallback: OnItemClickCallback) : RecyclerView.Adapter<FavoriteAdapter.FavoriteViewHolder>() {
-
+class FavoriteAdapter : RecyclerView.Adapter<FavoriteAdapter.FavoriteViewHolder>() {
     var listFavorites = ArrayList<Favorite>()
     set(listFavorites) {
         if (listFavorites.size > 0){
@@ -33,11 +34,18 @@ class FavoriteAdapter (private val onItemClickCallback: OnItemClickCallback) : R
 
     inner class FavoriteViewHolder(val binding: ItemUserBinding): RecyclerView.ViewHolder(binding.root) {
         fun bind(favorite: Favorite) {
+            binding.root.setOnClickListener {
+                val intent = Intent(it.context, DetailUser::class.java)
+                intent.putExtra(DetailUser.EXTRA_USERNAME, favorite.username)
+                it.context.startActivity(intent)
+            }
             binding.apply {
                 tvName.text = favorite.username
-                viewCard.setOnClickListener {
-                    onItemClickCallback.onItemClicked(favorite, adapterPosition)
-                }
+                Glide.with(itemView)
+                    .load(favorite.avatar)
+                    .error(R.drawable.default_avatar)
+                    .centerCrop()
+                    .into(ivUser)
             }
         }
     }
@@ -52,7 +60,4 @@ class FavoriteAdapter (private val onItemClickCallback: OnItemClickCallback) : R
         notifyItemRangeChanged(position, this.listFavorites.size)
     }
 
-    interface OnItemClickCallback {
-        fun onItemClicked(selectedFavorite: Favorite?, position: Int)
-    }
 }

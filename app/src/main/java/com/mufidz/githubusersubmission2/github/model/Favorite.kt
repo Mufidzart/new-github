@@ -7,5 +7,6 @@ import kotlinx.parcelize.Parcelize
 data class Favorite(
     var id: Int = 0,
     var username: String? = null,
+    var avatar: String? = null,
     var date: String? = null
 ) : Parcelable

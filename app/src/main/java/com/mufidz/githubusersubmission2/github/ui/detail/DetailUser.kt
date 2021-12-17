@@ -16,6 +16,7 @@ import com.mufidz.githubusersubmission2.R
 import com.mufidz.githubusersubmission2.databinding.ActivityDetailUserBinding
 import com.mufidz.githubusersubmission2.github.db.DatabaseContract
 import com.mufidz.githubusersubmission2.github.db.FavoriteHelper
+import com.mufidz.githubusersubmission2.github.model.DetailUserResponse
 import com.mufidz.githubusersubmission2.github.model.Favorite
 import java.text.SimpleDateFormat
 import java.util.*
@@ -93,43 +94,46 @@ class DetailUser : AppCompatActivity(), View.OnClickListener {
 
     override fun onClick(view: View) {
         if (view.id != R.id.btn_add_favorite) return
-        val username = binding.tvUsername.text.toString().trim()
-        if (username.isEmpty()) {
-            binding.tvUsername.error = "Can not get username!"
-            return
-        }
-        val favoriteHelper = FavoriteHelper.getInstance(applicationContext)
-        favoriteHelper.open()
-        val values = ContentValues()
-        val user = binding.tvUsername.text.toString()
-        val cursor = favoriteHelper.queryByUsername(user)
-        val dateFormat = SimpleDateFormat(ISOFORMAT)
-        val date = dateFormat.format(Date())
-        values.put(DatabaseContract.FavoriteColumns.USERNAME, username)
-        values.put(DatabaseContract.FavoriteColumns.DATE, date)
-        if (cursor.count == 0) {
-            val result = favoriteHelper.insert(values)
-            Log.d("Debug_result", result.toString())
-            if (result.toString() != "0") {
-                val btnTitle = "Remove Favorite"
-                binding.btnAddFavorite.text = btnTitle
-                Toast.makeText(this, "Success add to favorite", Toast.LENGTH_SHORT).show()
-                finish()
-            } else {
-                Toast.makeText(this, "Failed add to favorite", Toast.LENGTH_SHORT).show()
+        viewModel.getUserDetail().observe(this, {
+            val username = binding.tvUsername.text.toString().trim()
+            val avatar = it.avatar_url
+            Log.d("getAvatarUrl", avatar)
+            if (username.isEmpty()) {
+                binding.tvUsername.error = "Can not get username!"
             }
-        } else {
-            val result = favoriteHelper.deleteByUsername(username, values).toLong()
-            if (result > 0) {
-                val btnTitle = "Add Favorite"
-                binding.btnAddFavorite.text = btnTitle
-                finish()
+            val favoriteHelper = FavoriteHelper.getInstance(applicationContext)
+            favoriteHelper.open()
+            val values = ContentValues()
+            val user = binding.tvUsername.text.toString()
+            val cursor = favoriteHelper.queryByUsername(user)
+            val dateFormat = SimpleDateFormat(ISOFORMAT)
+            val date = dateFormat.format(Date())
+            values.put(DatabaseContract.FavoriteColumns.USERNAME, username)
+            values.put(DatabaseContract.FavoriteColumns.AVATAR, avatar)
+            values.put(DatabaseContract.FavoriteColumns.DATE, date)
+            if (cursor.count == 0) {
+                val result = favoriteHelper.insert(values)
+                Log.d("Debug_result", result.toString())
+                if (result.toString() != "0") {
+                    val btnTitle = "Remove Favorite"
+                    binding.btnAddFavorite.text = btnTitle
+                    Toast.makeText(this, "Success add to favorite", Toast.LENGTH_SHORT).show()
+                    finish()
+                } else {
+                    Toast.makeText(this, "Failed add to favorite", Toast.LENGTH_SHORT).show()
+                }
             } else {
-                Toast.makeText(this, "Failed remove favorite", Toast.LENGTH_SHORT).show()
+                val result = favoriteHelper.deleteByUsername(username, values).toLong()
+                if (result > 0) {
+                    val btnTitle = "Add Favorite"
+                    binding.btnAddFavorite.text = btnTitle
+                    finish()
+                } else {
+                    Toast.makeText(this, "Failed remove favorite", Toast.LENGTH_SHORT).show()
+                }
             }
-            return
-        }
-        favoriteHelper.close()
+            favoriteHelper.close()
+        })
     }
 
     private fun showLoading(state: Boolean) {
