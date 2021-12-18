@@ -17,6 +17,7 @@ import com.mufidz.githubusersubmission2.databinding.ActivityMainBinding
 import com.mufidz.githubusersubmission2.github.menu.FavoriteActivity
 import com.mufidz.githubusersubmission2.github.ui.GithubUserAdapter
 import com.mufidz.githubusersubmission2.github.ui.MainViewModel
+import com.mufidz.githubusersubmission2.github.ui.setting.SettingActivity
 import com.mufidz.githubusersubmission2.local.UserLocal
 import com.mufidz.githubusersubmission2.local.UserLocalAdapter
 import java.util.*
@@ -87,6 +88,11 @@ class MainActivity : AppCompatActivity() {
         when (item.itemId){
             R.id.favorite -> {
                 val i = Intent(this, FavoriteActivity::class.java)
+                startActivity(i)
+                return true
+            }
+            R.id.setting -> {
+                val i = Intent(this, SettingActivity::class.java)
                 startActivity(i)
                 return true
             }

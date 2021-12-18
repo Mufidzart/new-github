@@ -17,5 +17,5 @@
     android:icon="@drawable/ic_baseline_settings_24"
     tools:title="Setting"
     android:visible="true"
-    app:showAsAction="always" />
+    app:showAsAction="always"/>
 </menu>

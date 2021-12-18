@@ -1,21 +1,16 @@
 package com.mufidz.githubusersubmission2.github.menu
 
 import android.content.Intent
-import android.database.SQLException
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
-import android.view.View
 import android.widget.ImageView
-import android.widget.ProgressBar
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.mufidz.githubusersubmission2.R
-import com.mufidz.githubusersubmission2.databinding.ActivityFavoriteUserBinding
 import com.mufidz.githubusersubmission2.github.db.DatabaseContract
 import com.mufidz.githubusersubmission2.github.db.FavoriteHelper
 import com.mufidz.githubusersubmission2.github.model.Favorite
-import com.mufidz.githubusersubmission2.github.ui.GithubUserAdapter
 import com.mufidz.githubusersubmission2.github.ui.favorite.FavoriteAdapter
 
 class FavoriteActivity : AppCompatActivity() {
@@ -36,7 +31,7 @@ class FavoriteActivity : AppCompatActivity() {
             val avatarColumn = cursor.getColumnIndex(DatabaseContract.FavoriteColumns.AVATAR)
             val dateColumn = cursor.getColumnIndex(DatabaseContract.FavoriteColumns.DATE)
             val idColumn = cursor.getColumnIndex(DatabaseContract.FavoriteColumns._ID)
-            val adapter = FavoriteAdapter()
+            val adapter = FavoriteAdapter(this)
             val favorites = ArrayList<Favorite>()
             cursor.moveToFirst()
             do {
